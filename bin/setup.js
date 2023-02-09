@@ -8,6 +8,9 @@ const fsp = fs.promises;
 const { exec } = require('child_process');
 const execP = util.promisify(exec);
 
+const os = require('os');
+const osPlatform = os.platform(); // possible values are: 'darwin', 'freebsd', 'linux', 'sunos' or 'win32'
+
 
 // execute shell command
 async function runCmd(command, msg = '') {
@@ -68,7 +71,7 @@ async function setup() {
     process.chdir(appPath);
 
     // Delete .git folder
-    await runCmd('rm -rf .git');
+    osPlatform.includes('win') ? await runCmd('rmdir /Q /S .git') : await runCmd('rm -rf .git');
 
     // Create new .git
     await runCmd('git init', '  + git initialised');

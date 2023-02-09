@@ -1,0 +1,19 @@
+{
+  "name": "create-dodo",
+  "version": "1.0.0",
+  "title": "Create DoDo",
+  "description": "Start a single page app project with the DoDo Framework.",
+  "author": "Mikodanic Sasa <smikodanic@gmail.com>",
+  "homepage": "http://dodo.mikosoft.info",
+  "license": "MIT",
+  "keywords": [
+    "dodo",
+    "dodo create",
+    "single page app",
+    "single page application",
+    "spa",
+    "js framework"
+  ],
+  "bin": "bin/setup.js",
+  "scripts": {}
+}

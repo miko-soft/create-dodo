@@ -1,11 +1,11 @@
 # Create DoDo
-> Start a new single page application with the DoDo Framework.
+> A good way to start single page application with the DoDo Framework.
 
 
 ## How to start a new project in the [DoDo framework](http://dodo.mikosoft.info) ?
 Simply, run the commands:
 ```bash
-$ npm init create-dodo [projectName]
+$ npm init dodo [projectName]
 $ cd [projectName]
 $ npm run dev
 ```

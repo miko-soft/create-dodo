@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+const { red, yellow } = require('kolorist');
+const prompts = require('prompts');
 const util = require('util');
 const path = require('path');
 
@@ -13,7 +15,7 @@ const osPlatform = os.platform(); // possible values are: 'darwin', 'freebsd', '
 
 
 // execute shell command
-async function runCmd(command, msg = '') {
+const runCmd = async (command, msg = '') => {
   try {
     const { stdout, stderr } = await execP(command);
     if (msg) {
@@ -28,64 +30,55 @@ async function runCmd(command, msg = '') {
   } catch (err) {
     console.log('ERROR::', err);
   }
-}
+};
 
 
-// Validate arguments
-if (process.argv.length < 3) {
-  console.log(`Please specify the project name:
-  For example:
-    npx create-dodo my-app
-  or
-    npm init create-dodo my-app
-  `);
-  process.exit(1);
-}
 
 
-// Define constants
-const ownPath = process.cwd();
-const folderName = process.argv[2];
-const appPath = path.join(ownPath, folderName);
-const repo = 'https://github.com/miko-soft/create-dodo-boilerplates.git';
+const setup = async () => {
+  const questions = [
+    {
+      type: 'text',
+      name: 'folderName',
+      message: 'Project name:'
+    },
+    {
+      type: 'text',
+      name: 'gitBranch',
+      message: 'Template:',
+      initial: 'master'
+    },
+  ];
+  const answers = await prompts(questions);
 
 
-// Check if directory already exists
-try {
-  fs.mkdirSync(appPath);
-} catch (err) {
-  if (err.code === 'EEXIST') { console.log('Directory already exists. Please choose another name for the project.'); }
-  else { console.log(err); }
-  process.exit(1);
-}
+  // define constants
+  const ownPath = process.cwd();
+  const folderName = answers.folderName;
+  const gitBranch = answers.gitBranch;
+  const appPath = path.join(ownPath, folderName);
+  const repo = 'https://github.com/miko-soft/create-dodo-boilerplates.git';
 
+  if (fs.existsSync(appPath)) { console.log(red(` - The project "${folderName}" exists already.`)); return; }
 
-async function setup() {
-  try {
-    console.log('+++ Setup started ...');
+  console.log('+ Setup started ...');
 
-    // Clone repo
-    await runCmd(`git clone -b master ${repo} ${folderName}`, `  + repo cloned: ${repo}`);
+  // clone repo
+  await runCmd(`git clone -b ${gitBranch} ${repo} ${folderName}`, `+ boilerplate code is cloned: $git clone -b ${gitBranch} ${repo} ${folderName}`);
 
-    // Change directory
-    process.chdir(appPath);
+  // change directory
+  process.chdir(appPath);
 
-    // Delete .git folder
-    osPlatform.includes('win') ? await runCmd('rmdir /Q /S .git') : await runCmd('rm -rf .git');
+  // delete .git folder && create new .git
+  osPlatform.includes('win') ? await runCmd('rmdir /Q /S .git') : await runCmd('rm -rf .git');
+  await runCmd('git init', '+ git is initialised: $git init');
 
-    // Create new .git
-    await runCmd('git init', '  + git initialised');
+  // install dependencies
+  await runCmd('npm install', '+ npm dependencies are installed: $npm install');
 
-    // Install dependencies
-    await runCmd('npm install', '  + npm dependencies installed');
+  console.log(yellow('+ Congrats! The DoDo Framework boilerplate code is installed and your project is ready for development.'));
+};
 
-    console.log('+++ DoDo Framework setup is finished !');
-
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-setup();
+setup().catch(console.log);
 
 

@@ -1,6 +1,7 @@
 # create-dodo
 > A good way to start single page application (SPA) project with the DoDo Framework.
 
+
 # What is the DoDo Framework
 The DoDo is easy to learn JavaScript framework which helps developers to build reactive, single page applications.
 
@@ -17,13 +18,17 @@ Find more at [http://dodo.mikosoft.info](http://dodo.mikosoft.info)
 To initiate the development of a new Dodo Project, effortlessly follow these commands:
 ```bash
 $ npm init dodo
-  -- enter project name and choose boilerplate template
+  -- enter project title, description, author name and choose boilerplate template
 
-$ cd [projectName]
+$ cd [project-name]
 
-$ npm run dev (spa template)
-or
-$ npm run start (desktop-electronforge template)
+(when "spa" template is choosen)
+$ npm run dev
+  - Open your application in the browser by navigating to http://localhost:3001. The web page will automatically refresh with each code change.
+
+(when "desktop-electronforge" template is choosen)
+$ npm run start
+  - Electron app will be opened and refreshed on every change
 ```
 Access your application in the browser at http://localhost:3001 .
 

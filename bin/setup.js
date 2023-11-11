@@ -43,11 +43,17 @@ const setup = async () => {
       message: 'Project name:'
     },
     {
-      type: 'text',
+      type: 'select',
       name: 'gitBranch',
-      message: 'Template:',
-      initial: 'master'
-    },
+      message: 'Select a boilerplate template:',
+      choices: [
+        { title: 'Single Page App', description: 'Effortlessly begin building browser-based Single Page Application (SPA)', value: 'spa' },
+        { title: 'ElectronJS Desktop App', description: 'Initiate the development of desktop applications using the Dodo framework with ElectronJS Forge integration.', value: 'desktop-electronforge' },
+        // { title: 'Chrome Extension', description: 'Craft Chrome Extensions designed to operate within the Chrome browser.', value: 'extension-chrome' },
+        // { title: 'Cordova Mobile App', description: 'Quickly launch cross-platform mobile applications with Cordova and Dodo.', value: 'mobile-cordova' },
+      ],
+      initial: 0
+    }
   ];
   const answers = await prompts(questions);
 
@@ -60,6 +66,7 @@ const setup = async () => {
   const repo = 'https://github.com/miko-soft/create-dodo-boilerplates.git';
 
   if (fs.existsSync(appPath)) { console.log(red(` - The project "${folderName}" exists already.`)); return; }
+  if (!gitBranch) { console.log(red(` - The template is not defined.`)); return; }
 
   console.log('+ Setup started ...');
 

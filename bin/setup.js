@@ -105,6 +105,7 @@ const setup = async () => {
     packageObj.title = projectTitle;
     packageObj.description = projectDescription;
     packageObj.author = authorName;
+    packageObj.scripts.server = `export PORT=9000 && pm2 start server/index.js --name ${projectName}`;
     packageJSON = JSON.stringify(packageObj, null, 2);
     await writeFile('./package.json', packageJSON, { encoding: 'utf8' });
   } catch (err) {

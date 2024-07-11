@@ -22,7 +22,7 @@ $ npm init dodo
 
 $ cd [project-name]
 
-(when "spa" template is choosen)
+(when "appOne" or "spa" template is choosen)
 $ npm run dev
   - Open your application in the browser by navigating to http://localhost:3001. The web page will automatically refresh with each code change.
 
@@ -36,10 +36,11 @@ Access your application in the browser at http://localhost:3001 .
 ## Boilerplates
 The DoDo Framework boilerplate templates are organized within the [https://github.com/miko-soft/create-dodo-boilerplates](create-dodo-boilerplates) repository, each residing in distinct branches.
 Choose from a variety of code boilerplate templates to kickstart your project with Dodo:
-- **spa** -- *Single Page App* - Effortlessly begin building browser-based Single Page Application (SPA)
-- **desktop-electronforge** -- *ElectronJS Desktop App* - Initiate the development of desktop applications using the Dodo framework with ElectronJS Forge integration.
-- *extension-chrome* -- *Chrome Extension* - Craft Chrome Extensions designed to operate within the Chrome browser. (IN DEVELOPMENT)
-- *mobile-cordova* -- *Cordova Mobile App* - Quickly launch cross-platform mobile applications with Cordova and Dodo. (IN DEVELOPMENT)
+- **One Page App** -- *appOne* - Start an One Page Application with a single controller and no routes. (OPA)
+- **Single Page App** -- *spa* - Effortlessly begin building browser-based Single Page Application (SPA)
+- **ElectronJS Desktop App** -- *desktop-electronforge* - Initiate the development of desktop applications using the Dodo framework with ElectronJS Forge integration.
+- *Chrome Extension* -- *extension-chrome* - Craft Chrome Extensions designed to operate within the Chrome browser. (IN DEVELOPMENT)
+- *Cordova Mobile App* -- *mobile-cordova* - Quickly launch cross-platform mobile applications with Cordova and Dodo. (IN DEVELOPMENT)
 
 
 ## Documentation

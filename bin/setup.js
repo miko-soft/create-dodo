@@ -58,6 +58,7 @@ const setup = async () => {
       name: 'gitBranch',
       message: 'Select a boilerplate template:',
       choices: [
+        { title: 'One Page App', description: 'Start an One Page Application with a single controller and no routes.', value: 'appOne' },
         { title: 'Single Page App', description: 'Effortlessly begin building browser-based Single Page Application (SPA)', value: 'spa' },
         { title: 'ElectronJS Desktop App', description: 'Initiate the development of desktop applications using the Dodo framework with ElectronJS Forge integration.', value: 'desktop-electronforge' },
         // { title: 'Chrome Extension', description: 'Craft Chrome Extensions designed to operate within the Chrome browser.', value: 'extension-chrome' },

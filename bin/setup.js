@@ -61,7 +61,7 @@ const setup = async () => {
         { title: 'One Page App', description: 'Start an One Page Application with a single controller and no routes.', value: 'appOne' },
         { title: 'Single Page App', description: 'Effortlessly begin building browser-based Single Page Application (SPA)', value: 'spa' },
         { title: 'ElectronJS Desktop App', description: 'Initiate the development of desktop applications using the Dodo framework with ElectronJS Forge integration.', value: 'desktop-electronforge' },
-        // { title: 'Chrome Extension', description: 'Craft Chrome Extensions designed to operate within the Chrome browser.', value: 'extension-chrome' },
+        { title: 'Chrome Extension', description: 'Craft chrome extension designed to operate within the Chrome browser.', value: 'extension-chrome' },
         // { title: 'Cordova Mobile App', description: 'Quickly launch cross-platform mobile applications with Cordova and Dodo.', value: 'mobile-cordova' },
       ],
       initial: 0
@@ -82,7 +82,6 @@ const setup = async () => {
 
 
   if (!projectTitle) { console.log(red(` - The project name is not defined.`)); return; }
-  if (!authorName) { console.log(red(` - The author name is not defined.`)); return; }
   if (!gitBranch) { console.log(red(` - The template is not defined.`)); return; }
   if (fs.existsSync(appPath)) { console.log(red(` - The project "${projectTitle}" exists already.`)); return; }
   console.log('+ Setup started ...');
@@ -117,6 +116,9 @@ const setup = async () => {
 
 
   // install dependencies
+  if (fs.existsSync('package-lock.json')) { fs.unlinkSync('package-lock.json'); console.log('+ package-lock.json removed'); }
+  await runCmd('npm cache clean --force', '+ npm cache clean --force | installing dependencies ... Please wait!');
+  await new Promise(r => setTimeout(r, 400));
   await runCmd('npm install', '+ npm dependencies are installed: $npm install');
 
   console.log(green('+ Congrats! The DoDo Framework boilerplate code is installed and your project is ready for development.'));

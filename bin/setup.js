@@ -4,35 +4,25 @@ const prompts = require('prompts');
 const { readFile, writeFile } = require('fs').promises;
 const util = require('util');
 const path = require('path');
-
 const fs = require('fs');
-const fsp = fs.promises;
-
 const { exec } = require('child_process');
-const execP = util.promisify(exec);
-
 const os = require('os');
+
+const execP = util.promisify(exec);
 const osPlatform = os.platform(); // possible values are: 'darwin', 'freebsd', 'linux', 'sunos' or 'win32'
 
 
-// execute shell command
+// execute shell command - throws on non-zero exit
 const runCmd = async (command, msg = '') => {
-  try {
-    const { stdout, stderr } = await execP(command);
-    if (msg) {
-      console.log(msg);
-    } else if (stdout) {
-      const stdout2 = stdout.replace(/\\n/g, '');
-      console.log(JSON.stringify(stdout2));
-    } else if (stderr) {
-      const stderr2 = stderr.replace(/\\n/g, '');
-      console.log(stderr2);
-    }
-  } catch (err) {
-    console.log('ERROR::', err);
+  const { stdout, stderr } = await execP(command);
+  if (msg) {
+    console.log(msg);
+  } else if (stdout) {
+    console.log(stdout.replace(/\n/g, ''));
+  } else if (stderr) {
+    console.log(stderr.replace(/\n/g, ''));
   }
 };
-
 
 
 
@@ -105,7 +95,9 @@ const setup = async () => {
     packageObj.title = projectTitle;
     packageObj.description = projectDescription;
     packageObj.author = authorName;
-    packageObj.scripts.server = `export PORT=9000 && pm2 start server/index.js --name ${projectName}`;
+    const portExport = osPlatform.includes('win') ? `set PORT=9000 &&` : `export PORT=9000 &&`;
+    if (!packageObj.scripts) { packageObj.scripts = {}; }
+    packageObj.scripts.server = `${portExport} pm2 start server/index.js --name ${projectName}`;
     packageJSON = JSON.stringify(packageObj, null, 2);
     await writeFile('./package.json', packageJSON, { encoding: 'utf8' });
   } catch (err) {
@@ -114,16 +106,12 @@ const setup = async () => {
   }
 
 
-
   // install dependencies
   if (fs.existsSync('package-lock.json')) { fs.unlinkSync('package-lock.json'); console.log('+ package-lock.json removed'); }
   await runCmd('npm cache clean --force', '+ npm cache clean --force | installing dependencies ... Please wait!');
-  await new Promise(r => setTimeout(r, 400));
   await runCmd('npm install', '+ npm dependencies are installed: $npm install');
 
   console.log(green('+ Congrats! The DoDo Framework boilerplate code is installed and your project is ready for development.'));
 };
 
 setup().catch(console.log);
-
-

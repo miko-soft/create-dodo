@@ -1,4 +1,8 @@
 #!/usr/bin/env node
+const updateNotifier = require('update-notifier');
+const pkg = require('../package.json');
+updateNotifier({ pkg }).notify();
+
 const { red, yellow, green } = require('kolorist');
 const prompts = require('prompts');
 const { readFile, writeFile } = require('fs').promises;
